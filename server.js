@@ -28,16 +28,14 @@ app.use(passport.initialize());
 // passport config
 require('./config/passport.js')(passport);
 
+// Server static assets if in production
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 app.get('/', (req, res) => res.send('Welcome'));
 // use routes
 app.use('/api/users', users);
 app.use('/api/posts', posts);
 app.use('/api/profile', profile);
-
-// Server static assets if in production
-
-// ... other app.use middleware setups
-app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // ...
 // Right before your app.listen(), add this:
