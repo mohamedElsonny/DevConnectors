@@ -36,11 +36,13 @@ app.use('/api/profile', profile);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
-	// Set static folder
-	app.use(express.static('client/build'));
+	// ... other app.use middleware setups
+	app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+	// ...
+	// Right before your app.listen(), add this:
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+		res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 	});
 }
 
