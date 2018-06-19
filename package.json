@@ -3,12 +3,12 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"client-install": "yarn install --prefix client",
+		"client-install": "npm install --prefix client",
 		"start": "node server.js",
 		"server": "nodemon server.js",
-		"client": "cd ./client && yarn start",
-		"dev": "concurrently \"yarn run server\" \"yarn run client\"",
-		"heroku-postbuild": "cd ./client && yarn run build"
+		"client": "cd ./client && npm start",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
 	"license": "MIT",
 	"dependencies": {
