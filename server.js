@@ -35,16 +35,15 @@ app.use('/api/posts', posts);
 app.use('/api/profile', profile);
 
 // Server static assets if in production
-if (process.env.NODE_ENV === 'production') {
-	// ... other app.use middleware setups
-	app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-	// ...
-	// Right before your app.listen(), add this:
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-	});
-}
+// ... other app.use middleware setups
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+// ...
+// Right before your app.listen(), add this:
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 
 const port = process.env.PORT || 5000;
 
