@@ -34,23 +34,6 @@ router.get(
 	}
 );
 
-// @route  GET api/profile/handle/:handle
-// @desc   get profile by handle
-// @acess  public
-router.get('/handle/:handle', (req, res) => {
-	const errors = {};
-	Profile.findOne({ handle: req.params.handle })
-		.populate('user', ['name', 'avatar'])
-		.then(profile => {
-			if (!profile) {
-				errors.noprofile = 'There is no profile for this user';
-				return res.status(404).json(errors);
-			}
-			res.json(profile);
-		})
-		.catch(err => res.status(400).json(err));
-});
-
 // @route  GET api/profile/user/:user_id
 // @desc   get profile by user_id
 // @acess  public
@@ -108,7 +91,6 @@ router.post(
 		// Get fields
 		const profileFields = {};
 		profileFields.user = req.user.id;
-		if (req.body.handle) profileFields.handle = req.body.handle;
 		if (req.body.company) profileFields.company = req.body.company;
 		if (req.body.website) profileFields.website = req.body.website;
 		if (req.body.location) profileFields.location = req.body.location;
@@ -142,17 +124,8 @@ router.post(
 				).then(profileExp => res.json(profileExp));
 			} else {
 				// create new Profile
-				Profile.findOne({ handle: profileFields.handle }).then(profile => {
-					if (profile) {
-						errors.handle = 'That handle already exists';
-						return res.status(400).json(errors);
-					} else {
-						// Save new profile
-						new Profile(profileFields)
-							.save()
-							.then(profile => res.json(profile));
-					}
-				});
+
+				new Profile(profileFields).save().then(profile => res.json(profile));
 			}
 		});
 	}

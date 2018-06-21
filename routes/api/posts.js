@@ -9,6 +9,7 @@ const Profile = require('../../models/Profile');
 
 // validation
 const { validatePostInput } = require('../../validation');
+const isEmpty = require('../../validation/is_empty');
 
 // @route  GET api/posts
 // @desc   get posts
@@ -18,6 +19,17 @@ router.get('/', (req, res) => {
 		.sort({ date: -1 })
 		.then(posts => res.json(posts))
 		.catch(err => res.status(404).json({ nopostsfound: 'posts not found' }));
+});
+
+// @route  GET api/posts/by_user_id/:id
+// @desc   get user's post
+// @acess  public
+router.get('/by_user_id/:id', (req, res) => {
+	Post.find({ user: req.params.id })
+		.then(post => res.json(post))
+		.catch(err =>
+			res.status(404).json({ nopostfound: 'post not found for that user' })
+		);
 });
 
 // @route  GET api/posts/:id
@@ -31,6 +43,32 @@ router.get('/:id', (req, res) => {
 		);
 });
 
+// // @route  POST api/posts
+// // @desc   create post
+// // @acess  private
+// router.post(
+// 	'/',
+// 	passport.authenticate('jwt', { session: false }),
+// 	(req, res) => {
+// 		const { errors, isValid } = validatePostInput(req.body);
+
+// 		// check validation
+// 		if (!isValid) {
+// 			// if any errors, send 400 with errors object
+// 			return res.status(400).json(errors);
+// 		}
+
+// 		// create new post
+// 		const newPost = new Post({
+// 			text: req.body.text,
+// 			name: req.body.name,
+// 			avatar: req.body.avatar,
+// 			user: req.user.id
+// 		});
+// 		newPost.save().then(post => res.json(post));
+// 	}
+// );
+
 // @route  POST api/posts
 // @desc   create post
 // @acess  private
@@ -38,6 +76,7 @@ router.post(
 	'/',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
+		const { postType, videoUrl, imageUrl } = req.body;
 		const { errors, isValid } = validatePostInput(req.body);
 
 		// check validation
@@ -48,11 +87,25 @@ router.post(
 
 		// create new post
 		const newPost = new Post({
-			text: req.body.text,
+			text: req.body.text || '',
 			name: req.body.name,
 			avatar: req.body.avatar,
-			user: req.user.id
+			user: req.user.id,
+			postType: postType
 		});
+
+		if (isEmpty(newPost.postType)) {
+			newPost.postType = 'text';
+		}
+
+		if (postType == 'video') {
+			newPost.videoUrl = videoUrl;
+		}
+
+		if (postType == 'image') {
+			newPost.imageUrl = imageUrl;
+		}
+
 		newPost.save().then(post => res.json(post));
 	}
 );
@@ -165,7 +218,6 @@ router.post(
 					user: req.user.id
 				};
 
-				console.log(post);
 				// add to comment array
 				post.comments.unshift(newComment);
 				return post.save().then(newpost => res.json(newpost));

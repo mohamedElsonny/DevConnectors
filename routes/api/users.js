@@ -11,7 +11,10 @@ const User = require('../../models/User');
 const keys = require('../../config/keys');
 
 // load input validation
-const { validateLoginInput, validateRegisterInput } = require('../../validation');
+const {
+	validateLoginInput,
+	validateRegisterInput
+} = require('../../validation');
 
 // @route  GET api/users/register
 // @desc   Register user
@@ -25,7 +28,7 @@ router.post('/register', (req, res) => {
 
 	User.findOne({
 		email: req.body.email
-	}).then((user) => {
+	}).then(user => {
 		if (user) {
 			errors.email = 'Email already exists';
 			return res.status(400).json(errors);
@@ -48,8 +51,8 @@ router.post('/register', (req, res) => {
 				newUser.password = hash;
 				newUser
 					.save()
-					.then((user) => res.json(user))
-					.catch((err) => console.log(err));
+					.then(user => res.json(user))
+					.catch(err => console.log(err));
 			});
 		});
 	});
@@ -69,13 +72,13 @@ router.post('/login', (req, res) => {
 	const { email, password } = req.body;
 
 	// Find user by email
-	User.findOne({ email }).then((user) => {
+	User.findOne({ email }).then(user => {
 		if (!user) {
 			errors.email = 'User email not found';
 			return res.status(404).json(errors);
 		}
 		// Check Password
-		bcrypt.compare(password, user.password).then((isMatch) => {
+		bcrypt.compare(password, user.password).then(isMatch => {
 			if (isMatch) {
 				// user matched
 				const { id, name, avatar } = user;
@@ -86,7 +89,7 @@ router.post('/login', (req, res) => {
 					payload,
 					keys.secretOrKey,
 					{
-						expiresIn: 3600
+						expiresIn: 86400
 					},
 					(err, token) => {
 						return res.json({
@@ -106,9 +109,13 @@ router.post('/login', (req, res) => {
 // @route  GET api/users/current
 // @desc   get the current user
 // @acess  Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-	const { email, name, id } = req.user;
-	res.json({ id, name, email });
-});
+router.get(
+	'/current',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		const { email, name, id } = req.user;
+		res.json({ id, name, email });
+	}
+);
 
 module.exports = router;

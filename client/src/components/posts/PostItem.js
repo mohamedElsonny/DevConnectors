@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { deletePost, addLike, removeLike } from '../../actions/postActions';
 
 class PostItem extends Component {
@@ -22,16 +22,22 @@ class PostItem extends Component {
 	};
 
 	likeHandler = id => {
-		this.props.addLike(id);
+		this.props.addLike(id, {
+			match: this.props.match,
+			location: this.props.location,
+		});
 	};
 
 	unlikeHandler = id => {
-		this.props.removeLike(id);
+		this.props.removeLike(id, {
+			match: this.props.match,
+			location: this.props.location,
+		});
 	};
 
 	findUserLike = likes => {
 		const { auth } = this.props;
-		if (likes.filter(like => like.user === auth.user._id).length > 0) {
+		if (likes.filter(like => like.user === auth.user.id).length > 0) {
 			return true;
 		} else {
 			return false;
@@ -55,7 +61,16 @@ class PostItem extends Component {
 						<p className="text-center">{post.name}</p>
 					</div>
 					<div className="col-md-10">
-						<p className="lead">{post.text}</p>
+						<p className="lead">
+							{post.text.split('\n').map((item, key) => {
+								return (
+									<span key={key}>
+										{item}
+										<br />
+									</span>
+								);
+							})}
+						</p>
 						{showActions && (
 							<div>
 								<button
@@ -102,4 +117,4 @@ class PostItem extends Component {
 export default connect(
 	({ auth }) => ({ auth }),
 	{ deletePost, addLike, removeLike }
-)(PostItem);
+)(withRouter(PostItem));

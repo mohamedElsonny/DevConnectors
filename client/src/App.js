@@ -92,13 +92,12 @@ class App extends Component {
 								<PrivateRoute path="/feed" exact component={Posts} />
 								<PrivateRoute path="/post/:id" exact component={Post} />
 								<Route path="/profiles" exact component={Profiles} />
-								<Route path="/not-found" exact component={NotFound} />
 								<Route
 									path="/profile/user/:user_id"
 									exact
 									component={Profile}
 								/>
-								<Route path="/profile/:handle" exact component={Profile} />
+								<Route path="/not-found" exact component={NotFound} />
 							</Switch>
 						</div>
 						<Footer />

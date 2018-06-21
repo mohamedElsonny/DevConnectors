@@ -6,6 +6,13 @@ const PostSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'users'
 	},
+	postType: {
+		type: String,
+		enum: ['text', 'image', 'video'],
+		default: 'text'
+	},
+	videoUrl: String,
+	imageUrl: String,
 	text: {
 		type: String,
 		required: true

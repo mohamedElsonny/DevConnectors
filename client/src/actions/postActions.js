@@ -57,6 +57,25 @@ export const getPosts = () => dispatch => {
 		);
 };
 
+// get posts by user_id
+export const getPostsById = id => dispatch => {
+	dispatch(setPostLoading());
+	axios
+		.get(`/api/posts/by_user_id/${id}`)
+		.then(res =>
+			dispatch({
+				type: GET_POSTS,
+				payload: res.data,
+			})
+		)
+		.catch(err =>
+			dispatch({
+				type: GET_POSTS,
+				payload: null,
+			})
+		);
+};
+
 // get post
 export const getPost = id => dispatch => {
 	dispatch(setPostLoading());
@@ -132,10 +151,16 @@ export const deletePost = id => dispatch => {
 };
 
 // add like
-export const addLike = id => dispatch => {
+export const addLike = (id, { match, location }) => dispatch => {
 	axios
 		.post(`/api/posts/like/${id}`)
-		.then(res => dispatch(getPosts()))
+		.then(res => {
+			if (location.pathname === '/feed') {
+				dispatch(getPosts());
+			} else {
+				dispatch(getPostsById(match.params.user_id));
+			}
+		})
 		.catch(err =>
 			dispatch({
 				type: GET_ERRORS,
@@ -145,10 +170,16 @@ export const addLike = id => dispatch => {
 };
 
 // remove like
-export const removeLike = id => dispatch => {
+export const removeLike = (id, { match, location }) => dispatch => {
 	axios
 		.post(`/api/posts/unlike/${id}`)
-		.then(res => dispatch(getPosts()))
+		.then(res => {
+			if (location.pathname === '/feed') {
+				dispatch(getPosts());
+			} else {
+				dispatch(getPostsById(match.params.user_id));
+			}
+		})
 		.catch(err =>
 			dispatch({
 				type: GET_ERRORS,

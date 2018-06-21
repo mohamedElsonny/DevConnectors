@@ -17,21 +17,16 @@ export const getCurrentProfile = () => dispatch => {
 		.catch(err => dispatch({ type: GET_PROFILE, payload: {} }));
 };
 
-// get profile by handle
-export const getProfileByHandle = handle => dispatch => {
-	dispatch(setProfileLoading());
-	axios
-		.get(`/api/profile/handle/${handle}`)
-		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
-		.catch(err => dispatch({ type: GET_PROFILE, payload: {} }));
-};
 // get profile by Id
-export const getProfileById = user_id => dispatch => {
+export const getProfileById = (user_id, history) => dispatch => {
 	dispatch(setProfileLoading());
 	axios
 		.get(`/api/profile/user/${user_id}`)
 		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
-		.catch(err => dispatch({ type: GET_PROFILE, payload: {} }));
+		.catch(err => {
+			dispatch({ type: GET_PROFILE, payload: {} });
+			history.push('/not-found');
+		});
 };
 
 // create profile

@@ -43,7 +43,16 @@ class CommentItem extends Component {
 						) : null}
 					</div>
 					<div className="col-md-10">
-						<p className="lead">{comment.text}</p>
+						<p className="lead">
+							{comment.text.split('\n').map((item, key) => {
+								return (
+									<span key={key}>
+										{item}
+										<br />
+									</span>
+								);
+							})}
+						</p>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import PostForm from './PostForm';
 import Spinner from '../common/Spinner';
 import { getPosts } from '../../actions/postActions';
@@ -43,4 +44,4 @@ class Posts extends Component {
 export default connect(
 	({ post }) => ({ post }),
 	{ getPosts }
-)(Posts);
+)(withRouter(Posts));

@@ -19,7 +19,6 @@ class EditProfile extends Component {
 
 	state = {
 		displaySocialInput: false,
-		handle: '',
 		company: '',
 		website: '',
 		location: '',
@@ -76,7 +75,6 @@ class EditProfile extends Component {
 
 			// Set component fields state
 			this.setState({
-				handle: profile.handle,
 				company: profile.company,
 				website: profile.website,
 				location: profile.location,
@@ -104,7 +102,6 @@ class EditProfile extends Component {
 	submitHandler = e => {
 		e.preventDefault();
 		const profileData = {
-			handle: this.state.handle,
 			company: this.state.company,
 			website: this.state.website,
 			location: this.state.location,
@@ -196,14 +193,6 @@ class EditProfile extends Component {
 							<h1 className="display-4 text-center">Edit Profile</h1>
 							<small className="d-block pb-3">* = required fields</small>
 							<form onSubmit={this.submitHandler}>
-								<TextFieldGroup
-									placeholder="* Profile Handle"
-									value={this.state.handle}
-									name="handle"
-									onChange={this.changeHandler}
-									error={errors.handle}
-									info="A unique handle for your Profile URL. your full name, company name, nickname, etc"
-								/>
 								<SelectListGroup
 									placeholder="status"
 									name="status"
