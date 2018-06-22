@@ -7,7 +7,7 @@ const path = require('path');
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
-
+// start the app
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
