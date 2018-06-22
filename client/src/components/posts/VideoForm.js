@@ -23,7 +23,7 @@ class VideoForm extends Component {
 			videoUrl = videoUrl.substring(0, ampersandPosition);
 		}
 		this.props.uploadVideo(videoUrl);
-		this.setState({ loading: false });
+		this.setState({ loading: false, link: '' });
 	};
 
 	render() {
@@ -49,17 +49,16 @@ class VideoForm extends Component {
 				</div>
 				{this.state.loading && <Spinner />}
 				{this.props.videoUrl && (
-					<div className="row">
-						<div className="col-md-12">
-							<iframe
-								src={`https://www.youtube-nocookie.com/embed/${
-									this.props.videoUrl
-								}?rel=0&amp;controls=0&amp;showinfo=0`}
-								frameBorder="0"
-								allowFullScreen
-								title="post"
-							/>
-						</div>
+					<div className="embed-responsive embed-responsive-16by9">
+						<iframe
+							src={`https://www.youtube-nocookie.com/embed/${
+								this.props.videoUrl
+							}?rel=0&amp;controls=0&amp;showinfo=0`}
+							frameBorder="0"
+							className="embed-responsive-item"
+							allowFullScreen
+							title="post"
+						/>
 					</div>
 				)}
 			</div>

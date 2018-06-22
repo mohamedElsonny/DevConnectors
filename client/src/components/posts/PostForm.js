@@ -181,7 +181,7 @@ class PostForm extends Component {
 	changeLoading = condition => this.setState({ loading: condition });
 
 	render() {
-		const { errors, imageUrl } = this.state;
+		const { errors } = this.state;
 		return (
 			<div className="post-form mb-3">
 				<div className="card card-info">
