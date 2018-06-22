@@ -16,7 +16,7 @@ const isEmpty = require('../../validation/is_empty');
 // @acess  public
 router.get('/', (req, res) => {
 	Post.find({})
-		.sort({ date: -1 })
+		.sort({ date: 'desc' })
 		.then(posts => res.json(posts))
 		.catch(err => res.status(404).json({ nopostsfound: 'posts not found' }));
 });
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 // @acess  public
 router.get('/by_user_id/:id', (req, res) => {
 	Post.find({ user: req.params.id })
-		.sort({ date: -1 })
+		.sort({ date: 'desc' })
 		.then(post => res.json(post))
 		.catch(err =>
 			res.status(404).json({ nopostfound: 'post not found for that user' })

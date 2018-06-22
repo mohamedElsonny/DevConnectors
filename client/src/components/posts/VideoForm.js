@@ -32,6 +32,7 @@ class VideoForm extends Component {
 				<div className="row">
 					<div className="col-md-10">
 						<TextFieldGroup
+							placeholder="Type Youtube Video URL"
 							name="link"
 							value={this.state.link}
 							onChange={this.onChange}
