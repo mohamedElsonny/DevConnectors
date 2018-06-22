@@ -26,6 +26,7 @@ router.get('/', (req, res) => {
 // @acess  public
 router.get('/by_user_id/:id', (req, res) => {
 	Post.find({ user: req.params.id })
+		.sort({ date: -1 })
 		.then(post => res.json(post))
 		.catch(err =>
 			res.status(404).json({ nopostfound: 'post not found for that user' })
@@ -218,6 +219,7 @@ router.post(
 					user: req.user.id
 				};
 
+				console.log(post);
 				// add to comment array
 				post.comments.unshift(newComment);
 				return post.save().then(newpost => res.json(newpost));

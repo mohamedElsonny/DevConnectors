@@ -10,7 +10,7 @@ const TextFieldGroup = ({
 	info,
 	type,
 	onChange,
-	disabled
+	disabled,
 }) => {
 	return (
 		<div className="form-group">
@@ -19,7 +19,7 @@ const TextFieldGroup = ({
 				value={value}
 				onChange={onChange}
 				className={classnames('form-control form-control-lg', {
-					'is-invalid': error
+					'is-invalid': error,
 				})}
 				placeholder={placeholder}
 				name={name}
@@ -32,7 +32,7 @@ const TextFieldGroup = ({
 };
 
 TextFieldGroup.defaultProps = {
-	type: 'text'
+	type: 'text',
 };
 
 export default TextFieldGroup;

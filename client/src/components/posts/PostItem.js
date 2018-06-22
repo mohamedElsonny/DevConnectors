@@ -71,6 +71,26 @@ class PostItem extends Component {
 								);
 							})}
 						</p>
+						{post.imageUrl && (
+							<img
+								src={post.imageUrl}
+								alt="post"
+								className="rounded img-thumbnail"
+							/>
+						)}
+						{post.videoUrl && (
+							<div className="embed-responsive embed-responsive-16by9">
+								<iframe
+									src={`https://www.youtube-nocookie.com/embed/${
+										post.videoUrl
+									}?rel=0&amp;controls=0&amp;showinfo=0`}
+									frameBorder="0"
+									className="embed-responsive-item"
+									allowFullScreen
+									title="post"
+								/>
+							</div>
+						)}
 						{showActions && (
 							<div>
 								<button
