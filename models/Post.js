@@ -14,8 +14,7 @@ const PostSchema = new Schema({
 	videoUrl: String,
 	imageUrl: String,
 	text: {
-		type: String,
-		required: true
+		type: String
 	},
 	name: {
 		type: String
